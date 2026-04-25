@@ -18,6 +18,14 @@ endif()
 get_target_property(_pytest_python_exe Python::Interpreter IMPORTED_LOCATION)
 if(_pytest_python_exe)
     cmake_path(GET _pytest_python_exe PARENT_PATH _pytest_python_root)
+    message("
+    
+    
+    _pytest_python_exe: ${_pytest_python_exe}
+    _pytest_python_root: ${_pytest_python_root}
+    
+    
+    ")
     list(PREPEND CMAKE_PROGRAM_PATH "${_pytest_python_root}/Scripts")
 endif()
 
