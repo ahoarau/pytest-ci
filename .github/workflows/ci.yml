@@ -87,5 +87,7 @@ jobs:
           pip --version
 
       - name: Configure project
-        run: cmake -G Ninja -S . -B build --log-level=DEBUG -DCMAKE_TOOLCHAIN_FILE="C:/vcpkg/scripts/buildsystems/vcpkg.cmake"
-
+        env:
+          Python_ROOT: C:/vcpkg/installed/${{ matrix.arch }}-windows/tools/python3
+          CMAKE_TOOLCHAIN_FILE: C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+        run: cmake -G Ninja -S . -B build --log-level=DEBUG
