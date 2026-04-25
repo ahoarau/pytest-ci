@@ -68,7 +68,7 @@ jobs:
           ${{ env.VCPKG_COMMAND }} install python3
 
       - name: Save vcpkg binary cache
-        if: always()
+        if: steps.cache-vcpkg-restore.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4
         with:
           path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
