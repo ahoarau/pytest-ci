@@ -27,6 +27,13 @@ if(_pytest_python_exe)
     
     ")
     list(PREPEND CMAKE_PROGRAM_PATH "${_pytest_python_root}/Scripts")
+
+    # check that ${_pytest_python_root}/Scripts/pytest.exe exists and display a debug message
+    if(EXISTS "${_pytest_python_root}/Scripts/pytest.exe")
+        message(STATUS "Found pytest at ${_pytest_python_root}/Scripts/pytest.exe")
+    else()
+        message(WARNING "Could not find pytest at ${_pytest_python_root}/Scripts/pytest.exe")
+    endif()
 endif()
 
 # On Ubuntu 22.04, pytest is named pytest-3
