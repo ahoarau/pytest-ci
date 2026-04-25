@@ -5,8 +5,9 @@ platforms = ["linux-64", "linux-aarch64", "osx-64", "osx-arm64", "win-64"]
 version = "0.1.0"
 
 [dependencies]
-pytest = ">=9.0.3,<10"
+pytest = "*"
 cmake = ">=3.22"
+cxx-compiler = "*"
 
 [tasks]
 test = { cmd = "cmake -B build"}
