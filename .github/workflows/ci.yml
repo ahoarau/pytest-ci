@@ -91,3 +91,31 @@ jobs:
           Python_ROOT: C:/vcpkg/installed/${{ matrix.arch }}-windows/tools/python3
           CMAKE_TOOLCHAIN_FILE: C:/vcpkg/scripts/buildsystems/vcpkg.cmake
         run: cmake -G Ninja -S . -B build --log-level=DEBUG
+
+  windows-long-path-check:
+    name: Check Windows long path support
+    runs-on: windows-2025
+    steps:
+      - name: Check long path support in registry
+        run: |
+          $val = (Get-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name LongPathsEnabled -ErrorAction SilentlyContinue).LongPathsEnabled
+          if ($val -eq 1) {
+            Write-Host "Long path support is ENABLED (LongPathsEnabled = 1)"
+          } else {
+            Write-Host "Long path support is DISABLED (LongPathsEnabled = $val)"
+          }
+
+      - name: Enable long path support
+        run: |
+          Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name LongPathsEnabled -Value 1
+          Write-Host "LongPathsEnabled set to 1"
+
+      - name: Verify long path support is enabled
+        run: |
+          $val = (Get-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name LongPathsEnabled).LongPathsEnabled
+          if ($val -eq 1) {
+            Write-Host "Long path support is ENABLED (LongPathsEnabled = 1)"
+          } else {
+            Write-Host "Long path support is still DISABLED (LongPathsEnabled = $val)"
+            exit 1
+          }
